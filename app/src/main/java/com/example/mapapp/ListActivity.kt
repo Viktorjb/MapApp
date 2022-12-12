@@ -17,6 +17,10 @@ class ListActivity : AppCompatActivity() {
         var recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        val adapter = PlaceRecycleAdapter(this, placeList)
+
+        recyclerView.adapter = adapter
+
     }
 
     fun initialisePlaceList() : List<Place>{
