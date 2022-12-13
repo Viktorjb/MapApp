@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 
 class ListActivity : AppCompatActivity() {
 
@@ -45,7 +47,7 @@ class ListActivity : AppCompatActivity() {
 
         docRef.get().addOnSuccessListener { documentSnapShot ->
             for(document in documentSnapShot.documents){
-                
+                val plc = document.toObject<Place>()
 
             }
         }
