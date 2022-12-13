@@ -23,8 +23,6 @@ class ListActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
 
-        //var placeList = mutableListOf<Place>()
-
         var recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -33,52 +31,40 @@ class ListActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         //Add place button
-
         val fActionButton = findViewById<FloatingActionButton>(R.id.floatingActionButton)
         fActionButton.setOnClickListener {
             val intent = Intent(this, AddPlaceActivity::class.java)
             startActivity(intent)
         }
 
-        //updatePlaceList() // temporary test
+        // First fetching of placelist
         val docRef = db.collection("places")
-
-        docRef.get().addOnSuccessListener { documentSnapShot ->
+        docRef.get().addOnSuccessListener { documentSnapShot -> // could also use snapshotlistener
+            placeList.clear()
             for(document in documentSnapShot.documents){
-                Log.d("!!!!", "I got here")
                 val plc = document.toObject<Place?>()
-                Log.d("!!!!", "${plc?.name}, ${plc?.desc}, ${plc?.author}")
                 if(plc != null){
                     placeList.add(plc)
                     adapter.notifyDataSetChanged()
                 }
-
             }
         }
-        //test ends here, giving Place.kt default values seemed to have fixed it
 
-    }
-
-    fun initialisePlaceList() : List<Place>{
-
-        val docRef = db.collection("places")
-        var placeList = mutableListOf<Place>()
-
-        docRef.get().addOnSuccessListener { documentSnapShot ->
-            for(document in documentSnapShot.documents){
-                val plc = document.toObject<Place>()
-                if(plc != null){
-                    placeList.add(plc)
+        // Add refresh button, How can I branch this off into a separate function with access to the adapter?
+        val updateActionButton = findViewById<FloatingActionButton>(R.id.updateActionButton)
+        updateActionButton.setOnClickListener {
+            val docRef = db.collection("places")
+            docRef.get().addOnSuccessListener { documentSnapShot ->
+                placeList.clear()
+                for(document in documentSnapShot.documents){
+                    val plc = document.toObject<Place?>()
+                    if(plc != null){
+                        placeList.add(plc)
+                        adapter.notifyDataSetChanged()
+                    }
                 }
-
             }
         }
-
-        return placeList
-
-        /*return mutableListOf<Place>(Place("Gothenburg","Big",11.1,12.1,"Bob"),
-                                    Place("Malmö","Smaller",8.2,2.2,"Ron"),
-                                    Place("Lund","Cold",6.3,3.3,"Red"))*/
     }
 
     fun updatePlaceList(){ // temporary test
