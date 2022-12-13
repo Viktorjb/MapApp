@@ -1,9 +1,11 @@
 package com.example.mapapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ListActivity : AppCompatActivity() {
 
@@ -20,6 +22,14 @@ class ListActivity : AppCompatActivity() {
         val adapter = PlaceRecycleAdapter(this, placeList)
 
         recyclerView.adapter = adapter
+
+        //Add place button
+
+        val fActionButton = findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        fActionButton.setOnClickListener {
+            val intent = Intent(this, AddPlaceActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 
