@@ -1,5 +1,5 @@
 package com.example.mapapp
 
-class Place(val name : String, val desc : String, val lat : Double, val lng : Double,
-            val author : String) {
+class Place(val name : String? = "place", val desc : String? = "desc", val lat : Double? = 0.0, val lng : Double? = 0.0,
+            val author : String? = "author") {
 }
