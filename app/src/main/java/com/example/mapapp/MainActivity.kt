@@ -1,5 +1,6 @@
 package com.example.mapapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -55,6 +56,8 @@ class MainActivity : AppCompatActivity() {
             .addOnCompleteListener { task ->
                 if(task.isSuccessful){
                     Toast.makeText(applicationContext,"Logged in.", Toast.LENGTH_LONG).show()
+                    val intent = Intent(this, ListActivity::class.java)
+                    startActivity(intent)
                 } else{
                     Toast.makeText(applicationContext,"Failed. ${task.exception}", Toast.LENGTH_LONG).show()
                 }
