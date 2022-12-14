@@ -25,6 +25,9 @@ class AddPlaceActivity : AppCompatActivity() {
     lateinit var locationCallback : LocationCallback
     private val REQUEST_LOCATION = 1
 
+    private var currentLat : Double = 0.0
+    private var currentLng : Double = 0.0
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -43,6 +46,8 @@ class AddPlaceActivity : AppCompatActivity() {
             override fun onLocationResult(locationResult : LocationResult) {
                 for(location in locationResult.locations){
                     Log.d("!!!!","lat: ${location.latitude} lng: ${location.longitude}")
+                    currentLat = location.latitude
+                    currentLng = location.longitude
                 }
             }
         }
@@ -55,8 +60,17 @@ class AddPlaceActivity : AppCompatActivity() {
 
         val addButton = findViewById<Button>(R.id.uploadPlaceButton)
         addButton.setOnClickListener {
-            addPlace(placeNameEditText.text.toString(), descEditText.text.toString(),
-                10.1,10.1, authorEditText.text.toString())
+            // If trying to upload without GPS permissions
+            if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(applicationContext, "Location permissions not granted",
+                    Toast.LENGTH_LONG)
+            } else { // If permission had been granted
+                addPlace(
+                    placeNameEditText.text.toString(), descEditText.text.toString(),
+                    currentLat, currentLng, authorEditText.text.toString()
+                )
+            }
         }
     }
 
