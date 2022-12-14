@@ -65,6 +65,13 @@ class ListActivity : AppCompatActivity() {
                 }
             }
         }
+
+        // Add button to go to the map
+        val openMapButton = findViewById<FloatingActionButton>(R.id.mapActionButton)
+        openMapButton.setOnClickListener {
+            val mapIntent = Intent(this, MapsActivity::class.java)
+            startActivity(mapIntent)
+        }
     }
 
     fun updatePlaceList(){ // temporary test
