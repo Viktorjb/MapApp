@@ -2,9 +2,11 @@ package com.example.mapapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.google.android.gms.location.*
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AddPlaceActivity : AppCompatActivity() {
@@ -14,6 +16,10 @@ class AddPlaceActivity : AppCompatActivity() {
     lateinit var placeNameEditText : EditText
     lateinit var descEditText : EditText
     lateinit var authorEditText : EditText
+
+    lateinit var locationProvider : FusedLocationProviderClient
+    lateinit var locationRequest : LocationRequest
+    lateinit var locationCallback : LocationCallback
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -25,6 +31,16 @@ class AddPlaceActivity : AppCompatActivity() {
         placeNameEditText = findViewById(R.id.placeNameEditText)
         descEditText = findViewById(R.id.descEditText)
         authorEditText = findViewById(R.id.authorEditText)
+
+        locationProvider = LocationServices.getFusedLocationProviderClient(this)
+        locationRequest = LocationRequest.Builder(5000).build()
+        locationCallback = object : LocationCallback(){
+            override fun onLocationResult(locationResult : LocationResult) {
+                for(location in locationResult.locations){
+                    Log.d("!!!!","lat: ${location.latitude} lng: ${location.longitude}")
+                }
+            }
+        }
 
         val addButton = findViewById<Button>(R.id.uploadPlaceButton)
         addButton.setOnClickListener {
