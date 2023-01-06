@@ -44,6 +44,13 @@ class MainActivity : AppCompatActivity() {
             signUp(emailEditText.text.toString(),passwordEditText.text.toString())
         }
 
+        val viewMapGuestButton = findViewById<Button>(R.id.directMapButton)
+
+        viewMapGuestButton.setOnClickListener {
+            val mapIntent = Intent(this, MapsActivity::class.java)
+            startActivity(mapIntent)
+        }
+
     }
 
     fun logIn(email : String, password : String){
