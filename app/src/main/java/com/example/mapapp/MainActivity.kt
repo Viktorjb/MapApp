@@ -25,17 +25,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Firebase database and authentication
         auth = Firebase.auth
 
-        db = FirebaseFirestore.getInstance() // Not like the video
+        db = FirebaseFirestore.getInstance()
 
+        // Text fields
         emailEditText = findViewById(R.id.emailEditText)
         passwordEditText = findViewById(R.id.passwordEditText)
 
+        // Buttons
         val logInButton = findViewById<Button>(R.id.logInButton)
         val signUpButton = findViewById<Button>(R.id.signUpButton)
 
-
+        // Button Listeners
         logInButton.setOnClickListener {
             logIn(emailEditText.text.toString(),passwordEditText.text.toString())
         }
@@ -44,6 +47,7 @@ class MainActivity : AppCompatActivity() {
             signUp(emailEditText.text.toString(),passwordEditText.text.toString())
         }
 
+        // Button to view map without logging in
         val viewMapGuestButton = findViewById<Button>(R.id.directMapButton)
 
         viewMapGuestButton.setOnClickListener {
@@ -53,6 +57,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    // Log in function
     fun logIn(email : String, password : String){
         if(email.isEmpty() || password.isEmpty()){
             Toast.makeText(applicationContext, "Field empty", Toast.LENGTH_SHORT).show()
@@ -65,12 +70,13 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext,"Logged in.", Toast.LENGTH_LONG).show()
                     val intent = Intent(this, ListActivity::class.java)
                     startActivity(intent)
-                } else{
+                } else{ // If log in failed
                     Toast.makeText(applicationContext,"Failed. ${task.exception}", Toast.LENGTH_LONG).show()
                 }
-            } // from 20
+            }
     }
 
+    // Sign up function
     fun signUp(email : String, password : String){
 
         if(email.isEmpty() || password.isEmpty()){
@@ -82,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             .addOnCompleteListener { task ->
                 if(task.isSuccessful){
                     Toast.makeText(applicationContext,"Account created!", Toast.LENGTH_LONG).show()
-                } else{
+                } else{ // If sign up failed
                     Toast.makeText(applicationContext,"Failed. ${task.exception}", Toast.LENGTH_LONG).show()
                 }
             }

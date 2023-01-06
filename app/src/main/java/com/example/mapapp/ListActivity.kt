@@ -14,7 +14,7 @@ import com.google.firebase.ktx.Firebase
 class ListActivity : AppCompatActivity() {
 
     lateinit var db : FirebaseFirestore
-    var placeList = mutableListOf<Place>() // temporary test
+    var placeList = mutableListOf<Place>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
